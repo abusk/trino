@@ -31,6 +31,7 @@ public class SslTrustConfig
     private File truststorePath;
     private String truststorePassword;
     private TruststoreType truststoreType = JKS;
+    private TruststoreType keystoreType = JKS;
 
     public Optional<@FileExists File> getKeystorePath()
     {
@@ -38,6 +39,7 @@ public class SslTrustConfig
     }
 
     @Config("keystore-path")
+    @LegacyConfig({"keystore.location", "keystore.path"})
     public SslTrustConfig setKeystorePath(File keystorePath)
     {
         this.keystorePath = keystorePath;
@@ -50,10 +52,24 @@ public class SslTrustConfig
     }
 
     @Config("keystore-password")
+    @LegacyConfig({"keystore.password", "keystore.key"})
     @ConfigSecuritySensitive
     public SslTrustConfig setKeystorePassword(String keystorePassword)
     {
         this.keystorePassword = keystorePassword;
+        return this;
+    }
+
+    public Optional<TruststoreType> getKeystoreType()
+    {
+        return Optional.ofNullable(keystoreType);
+    }
+
+    @Config("keystore-type")
+    @LegacyConfig("keystore.type")
+    public SslTrustConfig setKeystoreType(TruststoreType keystoreType)
+    {
+        this.keystoreType = keystoreType;
         return this;
     }
 
@@ -76,7 +92,7 @@ public class SslTrustConfig
     }
 
     @Config("truststore-password")
-    @LegacyConfig({"truststore.password", "truststore.path"})
+    @LegacyConfig({"truststore.password", "truststore.key"})
     @ConfigSecuritySensitive
     public SslTrustConfig setTruststorePassword(String truststorePassword)
     {
