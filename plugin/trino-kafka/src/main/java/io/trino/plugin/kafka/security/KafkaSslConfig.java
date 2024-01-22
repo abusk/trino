@@ -79,10 +79,12 @@ public class KafkaSslConfig
     public Map<String, Object> getKafkaClientProperties()
     {
         ImmutableMap.Builder<String, Object> properties = ImmutableMap.builder();
-        getKeystorePath().ifPresent(v -> properties.put(SSL_KEYSTORE_LOCATION_CONFIG, v.toPath()));
         getKeystorePassword().ifPresent(v -> properties.put(SSL_KEYSTORE_PASSWORD_CONFIG, v));
         getKeystoreType().ifPresent(v -> properties.put(SSL_KEYSTORE_TYPE_CONFIG, v.name()));
-        getTruststorePath().ifPresent(v -> properties.put(SSL_TRUSTSTORE_LOCATION_CONFIG, v.toPath()));
+        getKeystorePath().ifPresent(v -> properties.put(SSL_KEYSTORE_LOCATION_CONFIG, v.getPath()));
+        getKeystorePassword().ifPresent(v -> properties.put(SSL_KEYSTORE_PASSWORD_CONFIG, v));
+        getKeystoreType().ifPresent(v -> properties.put(SSL_KEYSTORE_TYPE_CONFIG, v.name()));
+        getTruststorePath().ifPresent(v -> properties.put(SSL_TRUSTSTORE_LOCATION_CONFIG, v.getPath()));
         getTruststorePassword().ifPresent(v -> properties.put(SSL_TRUSTSTORE_PASSWORD_CONFIG, v));
         getTruststoreType().ifPresent(v -> properties.put(SSL_TRUSTSTORE_TYPE_CONFIG, v.name()));
         getKeyPassword().ifPresent(v -> properties.put(SSL_KEY_PASSWORD_CONFIG, v));
